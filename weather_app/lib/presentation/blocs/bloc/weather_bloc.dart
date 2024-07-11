@@ -13,11 +13,13 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   // initial change to state kidakkunna initail ingott edukkuka.
   WeatherBloc() : super(WeatherState.initial()) {
     //event akath ulla event name ingitt edukkuka event ennam koodunnathinn anusarich on ennam koodum.
-    on<GetInitalWeather>((event, emit) async{
+    on<GetInitalWeather>((event, emit) async {
       try {
         final data = await weatheService.getWeather();
         print("${data?.name}");
+        emit(state.copyWith(data: data, loading: false, error: null));
       } catch (e) {
+        emit(state.copyWith(data: null,loading: false,error: e.toString()));
         print("error");
       }
     });
