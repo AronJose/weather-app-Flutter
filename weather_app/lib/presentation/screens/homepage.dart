@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_app/presentation/blocs/bloc/weather_bloc.dart';
+import 'package:weather_app/presentation/screens/helper_screen.dart/time_formate.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -17,6 +18,8 @@ class _HomepageState extends State<Homepage> {
     context.read<WeatherBloc>().add(const GetInitalWeather());
     super.initState();
   }
+
+//sunset and sunrise calculation
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +86,8 @@ class _HomepageState extends State<Homepage> {
                                 Stack(
                                   children: [
                                     Container(
-                                      color:
-                                          Color.fromRGBO(78, 155, 228, 0.416),
+                                      color: const Color.fromRGBO(
+                                          78, 155, 228, 0.416),
                                       height: 250,
                                       child: Lottie.asset(
                                         'assets/animations/weather_animation.json',
@@ -93,18 +96,20 @@ class _HomepageState extends State<Homepage> {
                                         fit: BoxFit.fill,
                                       ),
                                     ),
-                                    Positioned(
-                                      left: 60,
-                                      top: 20,
-                                      child: Center(
-                                        child: Row(
+                                    Column(
+                                      children: [
+                                        Row(
                                           children: [
-                                            Text(
-                                              '${((state.data?.main.temp ?? 0) - 273.15).toStringAsFixed(0)}',
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 80,
-                                                  fontWeight: FontWeight.w900),
+                                            Container(
+                                              padding:EdgeInsets.only(left: 60),
+                                              child: Text(
+                                                '${((state.data?.main.temp ?? 0) - 273.15).toStringAsFixed(0)}',
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 80,
+                                                    fontWeight:
+                                                        FontWeight.w900),
+                                              ),
                                             ),
                                             const Text(
                                               "°c",
@@ -113,19 +118,60 @@ class _HomepageState extends State<Homepage> {
                                                   fontSize: 45,
                                                   color: Colors.white),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 60,
                                             ),
                                             Text(
                                               "${state.data?.weather.first.main}",
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
                                             ),
                                           ],
                                         ),
-                                      ),
+                                            SizedBox(height: 60,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "Sunset: \n${TimeFormate().formatTimestamp(state.data?.sys.sunset ?? 0)}",
+                                                      style: const TextStyle(
+                                                          color: Color.fromARGB(255, 238, 236, 235),
+                                                          fontSize: 18,
+                                                          fontWeight: FontWeight.bold),
+                                                    ),
+                                                    const SizedBox(width: 10,),
+                                                    const Icon(Icons.wb_sunny,color: Color.fromARGB(255, 247, 149, 4),size: 40,),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(width: 60,),
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "Sunrise: \n${TimeFormate().formatTimestamp(state.data?.sys.sunrise ?? 0)}",
+                                                      style: const TextStyle(
+                                                          color: Color.fromARGB(255, 243, 241, 241),
+                                                          fontSize: 18,
+                                                          fontWeight: FontWeight.bold),
+                                                    ),
+                                                    const SizedBox(width: 10,),
+                                                    const Icon(Icons.wb_sunny,color: Colors.yellow,size: 40,),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
