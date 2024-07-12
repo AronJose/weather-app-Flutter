@@ -5,4 +5,10 @@ class TimeFormate {
       final dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
       return DateFormat('hh:mm a').format(dateTime);
   }
+
+
+
+  
 }
+
+

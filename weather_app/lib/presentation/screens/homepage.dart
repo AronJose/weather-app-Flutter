@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,12 +48,24 @@ class _HomepageState extends State<Homepage> {
                   ? null
                   : AppBar(
                       backgroundColor: const Color.fromARGB(255, 57, 180, 241),
-                      title: Text(
-                        "${state.data?.name}",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      title: Row(
+                        children: [
+                          const Icon(
+                            Icons.location_pin,
+                            size: 40,
+                            color: Color.fromARGB(255, 138, 0, 0),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "${state.data?.name}",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                                fontSize: 25),
+                          ),
+                        ],
                       ),
                       actions: [
                         IconButton(
@@ -64,15 +77,10 @@ class _HomepageState extends State<Homepage> {
                           onPressed: () {},
                         ),
                       ],
-                      leading: const Icon(
-                        Icons.location_pin,
-                        size: 40,
-                        color: Color.fromARGB(255, 138, 0, 0),
-                      ),
                       elevation: 500,
                     ),
               body: state.loading
-                  ? Center(
+                  ? const Center(
                       child: CircularProgressIndicator(),
                     )
                   : SingleChildScrollView(
@@ -80,11 +88,12 @@ class _HomepageState extends State<Homepage> {
                         children: [
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            height: 400,
+                            height: 390,
                             child: Column(
                               children: [
                                 Stack(
                                   children: [
+                                    //baground image
                                     Container(
                                       color: const Color.fromRGBO(
                                           78, 155, 228, 0.416),
@@ -98,10 +107,12 @@ class _HomepageState extends State<Homepage> {
                                     ),
                                     Column(
                                       children: [
+                                        //temparature and weather showing
                                         Row(
                                           children: [
                                             Container(
-                                              padding:EdgeInsets.only(left: 60),
+                                              padding: const EdgeInsets.only(
+                                                  left: 60),
                                               child: Text(
                                                 '${((state.data?.main.temp ?? 0) - 273.15).toStringAsFixed(0)}',
                                                 style: const TextStyle(
@@ -130,9 +141,13 @@ class _HomepageState extends State<Homepage> {
                                             ),
                                           ],
                                         ),
-                                            SizedBox(height: 60,),
+                                        const SizedBox(
+                                          height: 60,
+                                        ),
+                                        // sunrise and sunset
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             Column(
                                               children: [
@@ -141,17 +156,31 @@ class _HomepageState extends State<Homepage> {
                                                     Text(
                                                       "Sunset: \n${TimeFormate().formatTimestamp(state.data?.sys.sunset ?? 0)}",
                                                       style: const TextStyle(
-                                                          color: Color.fromARGB(255, 238, 236, 235),
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              238,
+                                                              236,
+                                                              235),
                                                           fontSize: 18,
-                                                          fontWeight: FontWeight.bold),
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
-                                                    const SizedBox(width: 10,),
-                                                    const Icon(Icons.wb_sunny,color: Color.fromARGB(255, 247, 149, 4),size: 40,),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    const Icon(
+                                                      Icons.wb_sunny,
+                                                      color: Color.fromARGB(
+                                                          255, 247, 149, 4),
+                                                      size: 40,
+                                                    ),
                                                   ],
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(width: 60,),
+                                            const SizedBox(
+                                              width: 60,
+                                            ),
                                             Column(
                                               children: [
                                                 Row(
@@ -159,12 +188,23 @@ class _HomepageState extends State<Homepage> {
                                                     Text(
                                                       "Sunrise: \n${TimeFormate().formatTimestamp(state.data?.sys.sunrise ?? 0)}",
                                                       style: const TextStyle(
-                                                          color: Color.fromARGB(255, 243, 241, 241),
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              243,
+                                                              241,
+                                                              241),
                                                           fontSize: 18,
-                                                          fontWeight: FontWeight.bold),
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
-                                                    const SizedBox(width: 10,),
-                                                    const Icon(Icons.wb_sunny,color: Colors.yellow,size: 40,),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    const Icon(
+                                                      Icons.wb_sunny,
+                                                      color: Colors.yellow,
+                                                      size: 40,
+                                                    ),
                                                   ],
                                                 ),
                                               ],
@@ -176,38 +216,160 @@ class _HomepageState extends State<Homepage> {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: 10,
+                                  height: 5,
                                 ),
-                                Container(
-                                  height: 120,
-                                  color:
-                                      const Color.fromARGB(106, 78, 155, 228),
+                                //second container it should containing
+                                Stack(
+                                  children: [
+                                    Positioned.fill(
+                                      child: Image.asset(
+                                        "assets/images/sealevel.jpeg",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Container(
+                                          width:
+                                              MediaQuery.sizeOf(context).width,
+                                          height: 120,
+                                          color: const Color.fromARGB(
+                                              106, 78, 155, 228),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const Text(
+                                                "Sea level:",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w900,
+                                                    color: Colors.white),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                  "${state.data?.main.seaLevel}",
+                                                  style: const TextStyle(
+                                                      fontSize: 30,
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                      color: Colors.white)),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              const Text(
+                                                "ft",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w900,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
+                          // last portion it should contain humidity ,pressure,wind speed
                           SizedBox(
-                            height: 200,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
+                                  padding: const EdgeInsets.only(top: 20),
                                   width:
                                       MediaQuery.sizeOf(context).width * 0.30,
+                                  height: 150,
                                   color:
                                       const Color.fromARGB(48, 116, 239, 243),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 50,
+                                        child: Image.asset(
+                                            "assets/images/humidity.png",
+                                            fit: BoxFit.cover),
+                                      ),
+                                      const Text(
+                                        "Humidity",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15),
+                                      ),
+                                      Text(
+                                        "${state.data?.main.humidity} %",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 Container(
+                                  padding: const EdgeInsets.only(top: 20),
                                   width:
                                       MediaQuery.sizeOf(context).width * 0.30,
+                                  height: 150,
                                   color:
                                       const Color.fromARGB(48, 116, 239, 243),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 60,
+                                        child: Image.asset(
+                                            "assets/images/air-pressure.png",
+                                            fit: BoxFit.cover),
+                                      ),
+                                      const Text(
+                                        "Pressure",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15),
+                                      ),
+                                      Text(
+                                        "${state.data?.main.pressure} hPa",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 Container(
+                                  padding: const EdgeInsets.only(top: 30),
                                   width:
                                       MediaQuery.sizeOf(context).width * 0.30,
+                                  height: 150,
                                   color:
                                       const Color.fromARGB(48, 116, 239, 243),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        width: 60,
+                                        child: Image.asset(
+                                            "assets/images/wind.png",
+                                            fit: BoxFit.cover),
+                                      ),
+                                      const Text("Wind Speed",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15)),
+                                      Text(
+                                          "${((state.data?.wind.speed ?? 0) * 3.6).toStringAsFixed(0)} km/h",
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white)),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
