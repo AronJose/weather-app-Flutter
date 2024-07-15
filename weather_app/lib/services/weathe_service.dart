@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:weather_app/helper/geolocation_helper.dart';
 import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/presentation/constants.dart';
