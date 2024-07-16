@@ -29,8 +29,23 @@ class WeatheService {
       final WeatherModel weatherModel = WeatherModel.fromJson(res.data);
       return weatherModel;
     } catch (error) {
-      print("error");
       //evidunn kittunna error next try catch pass cheyunnu.
+      rethrow;
+    }
+  }
+
+  Future<WeatherModel?> searchApiWeatherLocation(String place) async {
+    try {
+      dio.interceptors
+          .add(LogInterceptor(requestBody: true, responseBody: true));
+      final res = await dio.get(
+        "https://api.openweathermap.org/data/2.5/weather?appid=$apiKey&q=$place",
+        // queryParameters: {"appid": apiKey, "q": place},
+      );
+      final WeatherModel weatherModelLocation = WeatherModel.fromJson(res.data);
+      return weatherModelLocation;
+    } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }

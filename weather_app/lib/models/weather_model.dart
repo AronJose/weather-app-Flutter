@@ -1,18 +1,18 @@
 
 class WeatherModel {
-    Coord coord;
-    List<Weather> weather;
-    String base;
-    Main main;
-    int visibility;
-    Wind wind;
-    Clouds clouds;
-    int dt;
-    Sys sys;
-    int timezone;
-    int id;
-    String name;
-    int cod;
+    Coord? coord;
+    List<Weather>? weather;
+    String ?base;
+    Main? main;
+    int? visibility;
+    Wind? wind;
+    // Clouds? clouds;
+    int? dt;
+    Sys? sys;
+    int? timezone;
+    int? id;
+    String? name;
+    int? cod;
 
     WeatherModel({
         required this.coord,
@@ -21,7 +21,7 @@ class WeatherModel {
         required this.main,
         required this.visibility,
         required this.wind,
-        required this.clouds,
+        // required this.clouds,
         required this.dt,
         required this.sys,
         required this.timezone,
@@ -37,7 +37,7 @@ class WeatherModel {
         main: Main.fromJson(json["main"]),
         visibility: json["visibility"],
         wind: Wind.fromJson(json["wind"]),
-        clouds: Clouds.fromJson(json["clouds"]),
+        // clouds: Clouds.fromJson(json["clouds"]),
         dt: json["dt"],
         sys: Sys.fromJson(json["sys"]),
         timezone: json["timezone"],
@@ -46,38 +46,38 @@ class WeatherModel {
         cod: json["cod"],
     );
 
-    Map<String, dynamic> toJson() => {
-        "coord": coord.toJson(),
-        "weather": List<dynamic>.from(weather.map((x) => x.toJson())),
-        "base": base,
-        "main": main.toJson(),
-        "visibility": visibility,
-        "wind": wind.toJson(),
-        "clouds": clouds.toJson(),
-        "dt": dt,
-        "sys": sys.toJson(),
-        "timezone": timezone,
-        "id": id,
-        "name": name,
-        "cod": cod,
-    };
+    // Map<String, dynamic> toJson() => {
+    //     "coord": coord.toJson(),
+    //     "weather": List<dynamic>.from(weather.map((x) => x.toJson())),
+    //     "base": base,
+    //     "main": main.toJson(),
+    //     "visibility": visibility,
+    //     "wind": wind.toJson(),
+    //     "clouds": clouds.toJson(),
+    //     "dt": dt,
+    //     "sys": sys.toJson(),
+    //     "timezone": timezone,
+    //     "id": id,
+    //     "name": name,
+    //     "cod": cod,
+    // };
 }
 
-class Clouds {
-    int all;
+// class Clouds {
+//     // int all;
 
-    Clouds({
-        required this.all,
-    });
+//     Clouds({
+//         required this.all,
+//     });
 
-    factory Clouds.fromJson(Map<String, dynamic> json) => Clouds(
-        all: json["all"],
-    );
+//     factory Clouds.fromJson(Map<String, dynamic> json) => Clouds(
+//         all: json["all"],
+//     );
 
-    Map<String, dynamic> toJson() => {
-        "all": all,
-    };
-}
+//     Map<String, dynamic> toJson() => {
+//         "all": all,
+//     };
+// }
 
 class Coord {
     double lon;
@@ -104,10 +104,10 @@ class Main {
     double feelsLike;
     double tempMin;
     double tempMax;
-    int pressure;
-    int humidity;
-    int seaLevel;
-    int grndLevel;
+    int? pressure;
+    int? humidity;
+    int? seaLevel;
+    int? grndLevel;
 
     Main({
         required this.temp,
@@ -144,11 +144,11 @@ class Main {
 }
 
 class Sys {
-    int type;
-    int id;
+    int? type;
+    int? id;
     String country;
-    int sunrise;
-    int sunset;
+    int? sunrise;
+    int? sunset;
 
     Sys({
         required this.type,
@@ -176,7 +176,7 @@ class Sys {
 }
 
 class Weather {
-    int id;
+    int? id;
     String main;
     String description;
     String icon;
@@ -205,7 +205,7 @@ class Weather {
 
 class Wind {
     double speed;
-    int deg;
+    int? deg;
 
     Wind({
         required this.speed,

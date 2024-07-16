@@ -19,32 +19,38 @@ mixin _$WeatherEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getInitalWeather,
+    required TResult Function(String place) searchWeather,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getInitalWeather,
+    TResult? Function(String place)? searchWeather,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getInitalWeather,
+    TResult Function(String place)? searchWeather,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetInitalWeather value) getInitalWeather,
+    required TResult Function(SearchWeather value) searchWeather,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetInitalWeather value)? getInitalWeather,
+    TResult? Function(SearchWeather value)? searchWeather,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetInitalWeather value)? getInitalWeather,
+    TResult Function(SearchWeather value)? searchWeather,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -107,6 +113,7 @@ class _$GetInitalWeatherImpl implements GetInitalWeather {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getInitalWeather,
+    required TResult Function(String place) searchWeather,
   }) {
     return getInitalWeather();
   }
@@ -115,6 +122,7 @@ class _$GetInitalWeatherImpl implements GetInitalWeather {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getInitalWeather,
+    TResult? Function(String place)? searchWeather,
   }) {
     return getInitalWeather?.call();
   }
@@ -123,6 +131,7 @@ class _$GetInitalWeatherImpl implements GetInitalWeather {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getInitalWeather,
+    TResult Function(String place)? searchWeather,
     required TResult orElse(),
   }) {
     if (getInitalWeather != null) {
@@ -135,6 +144,7 @@ class _$GetInitalWeatherImpl implements GetInitalWeather {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetInitalWeather value) getInitalWeather,
+    required TResult Function(SearchWeather value) searchWeather,
   }) {
     return getInitalWeather(this);
   }
@@ -143,6 +153,7 @@ class _$GetInitalWeatherImpl implements GetInitalWeather {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetInitalWeather value)? getInitalWeather,
+    TResult? Function(SearchWeather value)? searchWeather,
   }) {
     return getInitalWeather?.call(this);
   }
@@ -151,6 +162,7 @@ class _$GetInitalWeatherImpl implements GetInitalWeather {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetInitalWeather value)? getInitalWeather,
+    TResult Function(SearchWeather value)? searchWeather,
     required TResult orElse(),
   }) {
     if (getInitalWeather != null) {
@@ -162,6 +174,139 @@ class _$GetInitalWeatherImpl implements GetInitalWeather {
 
 abstract class GetInitalWeather implements WeatherEvent {
   const factory GetInitalWeather() = _$GetInitalWeatherImpl;
+}
+
+/// @nodoc
+abstract class _$$SearchWeatherImplCopyWith<$Res> {
+  factory _$$SearchWeatherImplCopyWith(
+          _$SearchWeatherImpl value, $Res Function(_$SearchWeatherImpl) then) =
+      __$$SearchWeatherImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String place});
+}
+
+/// @nodoc
+class __$$SearchWeatherImplCopyWithImpl<$Res>
+    extends _$WeatherEventCopyWithImpl<$Res, _$SearchWeatherImpl>
+    implements _$$SearchWeatherImplCopyWith<$Res> {
+  __$$SearchWeatherImplCopyWithImpl(
+      _$SearchWeatherImpl _value, $Res Function(_$SearchWeatherImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? place = null,
+  }) {
+    return _then(_$SearchWeatherImpl(
+      null == place
+          ? _value.place
+          : place // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SearchWeatherImpl implements SearchWeather {
+  const _$SearchWeatherImpl(this.place);
+
+  @override
+  final String place;
+
+  @override
+  String toString() {
+    return 'WeatherEvent.searchWeather(place: $place)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SearchWeatherImpl &&
+            (identical(other.place, place) || other.place == place));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, place);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SearchWeatherImplCopyWith<_$SearchWeatherImpl> get copyWith =>
+      __$$SearchWeatherImplCopyWithImpl<_$SearchWeatherImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getInitalWeather,
+    required TResult Function(String place) searchWeather,
+  }) {
+    return searchWeather(place);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getInitalWeather,
+    TResult? Function(String place)? searchWeather,
+  }) {
+    return searchWeather?.call(place);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getInitalWeather,
+    TResult Function(String place)? searchWeather,
+    required TResult orElse(),
+  }) {
+    if (searchWeather != null) {
+      return searchWeather(place);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetInitalWeather value) getInitalWeather,
+    required TResult Function(SearchWeather value) searchWeather,
+  }) {
+    return searchWeather(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetInitalWeather value)? getInitalWeather,
+    TResult? Function(SearchWeather value)? searchWeather,
+  }) {
+    return searchWeather?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetInitalWeather value)? getInitalWeather,
+    TResult Function(SearchWeather value)? searchWeather,
+    required TResult orElse(),
+  }) {
+    if (searchWeather != null) {
+      return searchWeather(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SearchWeather implements WeatherEvent {
+  const factory SearchWeather(final String place) = _$SearchWeatherImpl;
+
+  String get place;
+  @JsonKey(ignore: true)
+  _$$SearchWeatherImplCopyWith<_$SearchWeatherImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

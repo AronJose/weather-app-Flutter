@@ -21,8 +21,9 @@ class LowerSectionContainer extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            width: 50,
-            child: Image.asset(imgpath, fit: BoxFit.cover),
+            width: 70,
+            height: 60,
+            child: Image.asset(imgpath, fit: BoxFit.fill),
           ),
           Text(
             titile,

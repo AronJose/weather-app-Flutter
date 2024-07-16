@@ -1,6 +1,10 @@
+// import 'dart:math';
+
 import 'package:flutter/material.dart';
+// import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:weather_app/helper/debouncer.dart';
 import 'package:weather_app/presentation/blocs/bloc/weather_bloc.dart';
 import 'package:weather_app/presentation/screens/helper_screen.dart/time_formate.dart';
 import 'package:weather_app/presentation/screens/sub_widgets/lower_section_container.dart';
@@ -15,24 +19,26 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final Debouncer debouncer = Debouncer(milliseconds: 1000);
   @override
   void initState() {
     context.read<WeatherBloc>().add(const GetInitalWeather());
     super.initState();
   }
 
+// weather animation function
   String getWeatherAnimation(String weather) {
     switch (weather.toLowerCase()) {
       case 'rain':
-        return 'assets/animations/rain.json';
+        return 'assets/animations/weather_animation.json';
       case 'clouds':
         return 'assets/animations/clouds.json';
       default:
-        return 'assets/animations/sunny.json.json';
+        return 'assets/animations/sunny.json';
     }
   }
 
-//sunset and sunrise calculation
+  bool _isSearching = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,46 +57,56 @@ class _HomepageState extends State<Homepage> {
         ),
         child: BlocConsumer<WeatherBloc, WeatherState>(
           listener: (context, state) {
-            // TODO: implement listener
+            if (state.error != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("${state.error}"),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
           },
           builder: (context, state) {
             return Scaffold(
               backgroundColor: Colors.transparent,
-              appBar: state.loading
-                  ? null
-                  : AppBar(
-                      backgroundColor: const Color.fromARGB(255, 57, 180, 241),
-                      title: Row(
-                        children: [
-                          const Icon(
-                            Icons.location_pin,
-                            size: 40,
-                            color: Color.fromARGB(255, 138, 0, 0),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "${state.data?.name}",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white,
-                                fontSize: 25),
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.search_sharp,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ],
-                      elevation: 500,
+              appBar: AppBar(
+                backgroundColor: const Color.fromARGB(255, 57, 180, 241),
+                title: TextField(
+                  decoration: const InputDecoration(
+                    hintText: 'Search...',
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(color: Colors.white54),
+                  ),
+                  style: const TextStyle(color: Colors.white, fontSize: 18),
+                  onChanged: (value) {
+                    if (value.isNotEmpty) {
+                      debouncer.run(
+                        () {
+                          context.read<WeatherBloc>().add(SearchWeather(value));
+                          print("${value}");
+                        },
+                      );
+                    } else {
+                      context.read<WeatherBloc>().add(const GetInitalWeather());
+                    }
+                  },
+                ),
+                actions: [
+                  IconButton(
+                    icon: Icon(
+                      _isSearching ? Icons.close : Icons.search_sharp,
+                      color: Colors.white,
+                      size: 40,
                     ),
+                    onPressed: () {
+                      setState(() {
+                        _isSearching = !_isSearching;
+                      });
+                    },
+                  ),
+                ],
+                elevation: 500,
+              ),
               body: state.loading
                   ? const Center(
                       child: CircularProgressIndicator(),
@@ -98,6 +114,28 @@ class _HomepageState extends State<Homepage> {
                   : SingleChildScrollView(
                       child: Column(
                         children: [
+                          Container(
+                            color: const Color.fromRGBO(78, 155, 228, 0.416),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.location_pin,
+                                  size: 40,
+                                  color: Color.fromARGB(255, 138, 0, 0),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "${state.data?.name}",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.white,
+                                      fontSize: 25),
+                                ),
+                              ],
+                            ),
+                          ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: 390,
@@ -112,10 +150,11 @@ class _HomepageState extends State<Homepage> {
                                       height: 260,
                                       width: 500,
                                       child: Lottie.asset(
-                                        getWeatherAnimation('${state.data?.weather.first.main}'),
+                                        getWeatherAnimation(
+                                            '${state.data?.weather?.first.main}'),
                                         width: 200,
                                         height: 150,
-                                        fit: BoxFit.none,
+                                        fit: BoxFit.contain,
                                       ),
                                     ),
                                     Column(
@@ -125,9 +164,10 @@ class _HomepageState extends State<Homepage> {
                                           children: [
                                             Container(
                                               padding: const EdgeInsets.only(
-                                                  left: 60),
+                                                  left: 30),
                                               child: Text(
-                                                '${((state.data?.main.temp ?? 0) - 273.15).toStringAsFixed(0)}',
+                                                // ignore: unnecessary_string_interpolations
+                                                '${((state.data?.main?.temp ?? 0) - 273.15).toStringAsFixed(0)}',
                                                 style: const TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 80,
@@ -146,7 +186,7 @@ class _HomepageState extends State<Homepage> {
                                               width: 60,
                                             ),
                                             Text(
-                                              "${state.data?.weather.first.main}",
+                                              "${state.data?.weather?.first.main}",
                                               style: const TextStyle(
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.bold,
@@ -164,7 +204,7 @@ class _HomepageState extends State<Homepage> {
                                           children: [
                                             SunriseSunsetColumn(
                                               titile:
-                                                  "Sunrise: \n${TimeFormate().formatTimestamp(state.data?.sys.sunrise ?? 0)}",
+                                                  "Sunrise: \n${TimeFormate().formatTimestamp(state.data?.sys?.sunrise ?? 0)}",
                                               color: Colors.yellow,
                                             ),
                                             const SizedBox(
@@ -172,7 +212,7 @@ class _HomepageState extends State<Homepage> {
                                             ),
                                             SunriseSunsetColumn(
                                               titile:
-                                                  "Sunset: \n${TimeFormate().formatTimestamp(state.data?.sys.sunset ?? 0)}",
+                                                  "Sunset: \n${TimeFormate().formatTimestamp(state.data?.sys?.sunset ?? 0)}",
                                               color: const Color.fromARGB(
                                                   255, 247, 149, 4),
                                             ),
@@ -188,7 +228,7 @@ class _HomepageState extends State<Homepage> {
                                 //second container it should containing
                                 SeaLevelStack(
                                   titile: "Sea level:",
-                                  value: "${state.data?.main.seaLevel}",
+                                  value: "${state.data?.main?.seaLevel}",
                                   imgpath: "assets/images/sealevel.jpeg",
                                 ),
                               ],
@@ -202,16 +242,16 @@ class _HomepageState extends State<Homepage> {
                                 LowerSectionContainer(
                                     titile: "Humidity",
                                     imgpath: "assets/images/humidity.png",
-                                    value: "${state.data?.main.humidity} %"),
+                                    value: "${state.data?.main?.humidity} %"),
                                 LowerSectionContainer(
                                     titile: "Pressure",
                                     imgpath: "assets/images/air-pressure.png",
-                                    value: "${state.data?.main.pressure} hPa"),
+                                    value: "${state.data?.main?.pressure} hPa"),
                                 LowerSectionContainer(
                                     titile: "Wind Speed",
                                     imgpath: "assets/images/wind.png",
                                     value:
-                                        "${((state.data?.wind.speed ?? 0) * 3.6).toStringAsFixed(0)} km/h"),
+                                        "${((state.data?.wind?.speed ?? 0) * 3.6).toStringAsFixed(0)} km/h"),
                               ],
                             ),
                           ),
